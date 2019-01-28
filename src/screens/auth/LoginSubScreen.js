@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default props => {
   return (
-    <View>
+    <View style={styles.view}>
       <Text>I'm Login Sub Screen</Text>
       <Button title='Go To Tab Nav....' onPress={() => props.navigation.navigate('Tabs')} />
     </View>
@@ -12,7 +12,8 @@ export default props => {
 }
 
 const styles = EStyleSheet.create({
-  text: {
-    // fontSize: '22rem'
+  view: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

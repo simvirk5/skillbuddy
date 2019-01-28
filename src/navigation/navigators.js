@@ -8,17 +8,17 @@ import {
 import ConnectionsSubScreen from '../screens/connections/ConnectionsSubScreen';
 import ExploreSubScreen from '../screens/explore/ExploreSubScreen';
 import MessagesSubScreen from '../screens/messages/MessagesSubScreen';
-import ProfileSubScreen from '../screens/profile/EProfileubScreen';
+import ProfileSubScreen from '../screens/profile/ProfileSubScreen';
 
-import LoadingScreen from '../screens/augh/LoadingScreen';
-import Login from '../screens/augh/Login';
+import LoadingScreen from '../screens/auth/LoadingScreen';
+import LoginSubScreen from '../screens/auth/LoginSubScreen';
 
 import {
   // blackBG,
   // greyDark,
   // greyMedium,
   // greyMediumDark,
-  // tabHeight,
+  tabHeight,
   // white,
   // yellow,
 } from '../../variables/style-sheet';
@@ -41,16 +41,16 @@ const TabNav = createBottomTabNavigator(
       // activeBackgroundColor: greyMediumDark,
       // activeBackgroundColor: blackBG,
       // inactiveBackgroundColor: blackBG,
-      // style: {
-      //   height: tabHeight,
-      // },
+      style: {
+        height: tabHeight,
+      },
       tabStyle: {
         // paddingBottom: 35
       },
-      // labelStyle: {
-      //   paddingBottom: 31,
-      //   fontSize: 15
-      // },
+      labelStyle: {
+        paddingBottom: 31,
+        fontSize: 15
+      },
       safeAreaInset: {
         bottom: 'never'
       },
@@ -60,7 +60,7 @@ const TabNav = createBottomTabNavigator(
 
 const AuthStack = createStackNavigator(
   {
-    Login: LoginScreen,
+    Login: LoginSubScreen,
     // Signup: SignupScreen,
   },
   {

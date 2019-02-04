@@ -7,13 +7,15 @@ import { liftUser } from '../../redux/modules/user';
 import { apiUrl, tokenName } from '../../../utils/global-variables';
 import useAxios from '../../../utils/axios-helpers';
 
-const path = `${apiUrl}/user/login`;
+const path = `${apiUrl}/user/create`;
 const { postWithAxios } = useAxios(path);
 
-class LoginScreen extends React.Component {
+class SignupScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
     }
@@ -38,19 +40,32 @@ class LoginScreen extends React.Component {
   }
 
   handleSubmit = () => {
-    const { email, password } = this.state;
-    postWithAxios({ email, password }).then(result => {
+    const { firstName, lastName, email, password } = this.state;
+    postWithAxios({ firstName, lastName, email, password }).then(result => {
       result.data.user
         ? this.handleSuccess({ user: result.data.user, token: result.data.token })
         : this.handleErr(result.data._message);
-    });
+    }).catch(err => console.log('err: ', err));
   }
 
   render() {
-    const { email, password } = this.state;
+    const { firstName, lastName, email, password } = this.state;
     return (
       <View>
-        <Text>login screen</Text>
+        <Text>signup screen</Text>
+        <Text>First Name</Text>
+        <TextInput
+          onChangeText={text => this.setState({ firstName: text })}
+          textContentType='givenName'
+          value={firstName}
+        />
+
+        <Text>Last Name</Text>
+        <TextInput
+          onChangeText={text => this.setState({ lastName: text })}
+          textContentType='familyName'
+          value={lastName}
+        />
 
         <Text>Email</Text>
         <TextInput
@@ -73,14 +88,6 @@ class LoginScreen extends React.Component {
           onPress={this.handleSubmit}
           title='submit'
         />
-
-        <Text>Haven't signed up yet?</Text>
-        <Button
-          onPress={() => this.props.navigation.navigate('Signup')}
-          title='Signup here'
-        />
-
-        <Button onPress={() => console.log('user: ', this.props.user)} title='props user' />
 
       </View>
     );
@@ -106,4 +113,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SignupScreen);

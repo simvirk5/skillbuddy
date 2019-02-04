@@ -12,6 +12,7 @@ import ProfileSubScreen from '../screens/profile/ProfileSubScreen';
 
 import LoadingScreen from '../screens/auth/LoadingScreen';
 import LoginSubScreen from '../screens/auth/LoginSubScreen';
+import SignupSubScreen from '../screens/auth/SignupSubScreen';
 
 import {
   // blackBG,
@@ -21,7 +22,7 @@ import {
   tabHeight,
   // white,
   // yellow,
-} from '../../variables/style-sheet';
+} from '../../utils/style-sheet';
 
 const TabNav = createBottomTabNavigator(
   {
@@ -61,7 +62,7 @@ const TabNav = createBottomTabNavigator(
 const AuthStack = createStackNavigator(
   {
     Login: LoginSubScreen,
-    // Signup: SignupScreen,
+    Signup: SignupSubScreen,
   },
   {
     initialRouteName: 'Login',
@@ -72,7 +73,7 @@ const AppSwitch = createSwitchNavigator(
   {
     Loading: LoadingScreen,
     Auth: AuthStack,
-    Tabs: TabNav
+    Main: TabNav
   },
   {
     initialRouteName: 'Loading'

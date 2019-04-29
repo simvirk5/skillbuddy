@@ -5,7 +5,7 @@ import store from './src/redux/store/store';
 
 import AppContainer from './src/navigation/navigators';
 
-import buildStyleSheet from './utils/style-sheet';
+import buildStyleSheet from './variables/style-sheet';
 
 buildStyleSheet();
 

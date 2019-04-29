@@ -15,14 +15,8 @@ import LoginSubScreen from '../screens/auth/LoginSubScreen';
 import SignupSubScreen from '../screens/auth/SignupSubScreen';
 
 import {
-  // blackBG,
-  // greyDark,
-  // greyMedium,
-  // greyMediumDark,
   tabHeight,
-  // white,
-  // yellow,
-} from '../../utils/style-sheet';
+} from '../../variables/style-sheet';
 
 const TabNav = createBottomTabNavigator(
   {

@@ -3,6 +3,8 @@ import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import Touchable from '../../components/Touchable';
+
 import { liftUser } from '../../redux/modules/user';
 import { apiUrl, tokenName } from '../../../utils/global-variables';
 import useAxios from '../../../utils/axios-helpers';
@@ -11,6 +13,10 @@ const path = `${apiUrl}/user/login`;
 const { postWithAxios } = useAxios(path);
 
 class LoginScreen extends React.Component {
+  static navigationOptions = {
+      header: null,
+    };
+
   constructor(props) {
     super(props)
     this.state = {
@@ -49,38 +55,40 @@ class LoginScreen extends React.Component {
   render() {
     const { email, password } = this.state;
     return (
-      <View>
-        <Text>login screen</Text>
+      <View style={styles.page}>
 
-        <Text>Email</Text>
+        <View style={styles.circle}></View>
+
+        <Text style={styles.title}>SKILLBUDDY</Text>
+
         <TextInput
           autoCapitalize='none'
           onChangeText={text => this.setState({ email: text })}
+          placeholder='Email'
+          style={styles.input}
           textContentType='emailAddress'
           value={email}
         />
 
-        <Text>Password</Text>
         <TextInput
           autoCapitalize='none'
           onChangeText={text => this.setState({ password: text })}
+          placeholder='Password'
           secureTextEntry={true}
+          style={styles.input}
           textContentType='password'
           value={password}
         />
 
-        <Button
-          onPress={this.handleSubmit}
-          title='submit'
-        />
+        <Touchable iosType='opacity' onPress={this.handleSubmit} style={styles.button}>
+          <Text style={styles.text}>Log In</Text>
+        </Touchable>
 
-        <Text>Haven't signed up yet?</Text>
-        <Button
-          onPress={() => this.props.navigation.navigate('Signup')}
-          title='Signup here'
-        />
+        <Touchable iosType='opacity' onPress={() => this.props.navigation.navigate('Signup')}>
+          <Text style={styles.smallText}>Sign Up</Text>
+        </Touchable>
 
-        <Button onPress={() => console.log('user: ', this.props.user)} title='props user' />
+        {/* <Button onPress={() => console.log('user: ', this.props.user)} title='props user' /> */}
 
       </View>
     );
@@ -88,8 +96,49 @@ class LoginScreen extends React.Component {
 }
 
 const styles = EStyleSheet.create({
+  $margin: '40rem',
+  $padding: '10rem',
+
+  page: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '$orange',
+  },
+  circle: {
+    height: '150rem',
+    width: '150rem',
+    backgroundColor: 'green',
+    borderRadius: '100rem',
+  },
+  title: {
+    marginTop: '$margin',
+    marginBottom: '$margin',
+    fontSize: '28rem',
+    textAlign: 'center',
+  },
+  input: {
+    width: '100%',
+    marginTop: '$margin / 2',
+    marginBottom: '$margin / 2',
+    padding: '$padding',
+    fontSize: '22rem',
+    borderWidth: '1rem',
+  },
+  button: {
+    width: '100%',
+    padding: '$padding',
+    backgroundColor: '$blue',
+    fontSize: '25rem',
+  },
   text: {
-    // fontSize: '22rem'
+    color: '$white',
+    fontSize: '22rem',
+    textAlign: 'center',
+  },
+  smallText: {
+    ...this.text,
+    fontSize: '16rem',
   },
 });
 

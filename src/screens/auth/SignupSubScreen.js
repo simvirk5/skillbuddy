@@ -3,9 +3,11 @@ import { AsyncStorage, Button, ScrollView, Text, TextInput, View } from 'react-n
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import Icon from '../../components/Icon'
 import PersonalInfo from './PersonalInfo'
 import Skills from './Skills'
 import Touchable from '../../components/Touchable'
+import UserDesc from './UserDesc'
 
 import { height, width } from '../../../variables/style-sheet'
 import { liftUser } from '../../redux/modules/user';
@@ -22,11 +24,16 @@ class SignupScreen extends React.Component {
 
   constructor(props) {
     super(props)
+    // this.scrollView = React.createRef();
     this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
+      personalInfo: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      },
+      scrollViewContentOffsetY: 0,
+      scrollViewHeight: 0,
     }
   }
 
@@ -37,8 +44,10 @@ class SignupScreen extends React.Component {
   }
 
   handleSubmit = () => {
-    const { firstName, lastName, email, password } = this.state;
+    const { personalInfo } = this.state;
+    const { firstName, lastName, email, password } = personalInfo;
     postWithAxios({ firstName, lastName, email, password }).then(result => {
+      console.log('handleSub cb')
       result.data.user
         ? this.handleSuccess({ user: result.data.user, token: result.data.token })
         : this.handleErr(result.data._message);
@@ -51,9 +60,20 @@ class SignupScreen extends React.Component {
     this.props.navigation.navigate('Main');
   }
 
-  nextPage = () => {
-    console.log('scrolling')
-  }
+  changePage = direction => {
+    const scrollChildren = 3;
+    const scrollDown = this.state.scrollViewContentOffsetY < this.state.scrollViewHeight * (scrollChildren -1)
+                      ? this.state.scrollViewHeight
+                      : 0;
+    const scrollUp = this.state.scrollViewContentOffsetY > 0
+                    ? this.state.scrollViewHeight
+                    : 0;
+    const directions = {
+      prev: this.state.scrollViewContentOffsetY - scrollUp,
+      next: this.state.scrollViewContentOffsetY + scrollDown
+    }
+    this.scrollView.scrollTo({ y: directions[direction] })
+  };
 
   setToken = async token => {
     try {
@@ -63,25 +83,38 @@ class SignupScreen extends React.Component {
     }
   }
 
-  updateState = (data, key) => {
-    this.setState({ [key]: data })
-  }
+  updateState = (data, key) => this.setState({ [key]: data });
 
   render() {
-    const { firstName, lastName, email, password } = this.state;
-    const height = () => EStyleSheet.value('$height');
-    const pagePadding = () => EStyleSheet.value('$pagePadding');
-    const pagingHeight = height() - (pagePadding() * 2);
+    const { personalInfo, scrollViewHeight } = this.state;
     return (
       <View style={styles.page}>
 
-        <ScrollView pagingEnabled scrollEnabled={true} style={[ styles.scroll, { height: pagingHeight } ]}>
-          <PersonalInfo backToLogin={this.backToLogin} pagingHeight={pagingHeight} state={this.state} updateState={this.updateState} />
-          <Skills pagingHeight={pagingHeight} />
+        <Touchable iosType='opacity' onPress={() => this.changePage('prev')}>
+          <View style={styles.circle}>
+            <Icon color='white' library='Entypo' name='chevron-up' size={50} />
+          </View>
+        </Touchable>
+
+        <ScrollView
+          pagingEnabled
+          onLayout={e => this.setState({ scrollViewHeight: e.nativeEvent.layout.height })}
+          onScroll={e => this.setState({ scrollViewContentOffsetY: e.nativeEvent.contentOffset.y })}
+          ref={ref => this.scrollView = ref}
+          scrollEnabled={true}
+          style={[ styles.scroll ]}
+        >
+          <PersonalInfo backToLogin={this.backToLogin} pagingHeight={scrollViewHeight} personalInfo={personalInfo} updateState={this.updateState} />
+          <Skills pagingHeight={scrollViewHeight} />
+
+          {/* TEMP PASSING SUBMIT FUNC */}
+          <UserDesc handleSubmit={this.handleSubmit} pagingHeight={scrollViewHeight} />
         </ScrollView>
 
-        <Touchable iosType='opacity' onPress={this.nextPage}>
-          <View style={styles.circle}></View>
+        <Touchable iosType='opacity' onPress={() => this.changePage('next')}>
+          <View style={styles.circle}>
+            <Icon color='white' library='Entypo' name='chevron-down' size={50} />
+          </View>
         </Touchable>
       </View>
     );
@@ -104,7 +137,9 @@ const styles = EStyleSheet.create({
   circle: {
     height: 60,
     width: 60,
-    marginTop: '30rem',
+    marginTop: '$pagePadding',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     backgroundColor: '$purple',
     borderRadius: 30,
   },

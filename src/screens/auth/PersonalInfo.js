@@ -1,14 +1,14 @@
 import React from 'react';
-import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Touchable from '../../components/Touchable'
 
 const PersonalInfo = props => {
-  const { pagingHeight, state, updateState } = props;
+  const { pagingHeight, personalInfo, updateState } = props;
+  const updatePersonalInfo = (text, key) => updateState({ ...personalInfo, [key]: text }, 'personalInfo');
   return (
-    // <View style={[ styles.page, { height: pagingHeight } ]}>
-    <View style={styles.page}>
+    <View style={[ styles.page, { height: pagingHeight } ]}>
 
       <Touchable iosType='opacity' onPress={props.backToLogin} style={styles.foo}>
         <Text>Back to Log In</Text>
@@ -17,38 +17,38 @@ const PersonalInfo = props => {
       <Text style={styles.title}>Sign Up</Text>
 
       <TextInput
-        onChangeText={text => updateState(text, 'firstName')}
+        onChangeText={text => updatePersonalInfo(text, 'firstName')}
         placeholder='First Name'
         style={styles.input}
         textContentType='givenName'
-        value={state.firstName}
+        value={personalInfo.firstName}
       />
 
       <TextInput
-        onChangeText={text => updateState(text, 'lastName')}
+        onChangeText={text => updatePersonalInfo(text, 'lastName')}
         placeholder='Last Name'
         style={styles.input}
         textContentType='familyName'
-        value={state.lastName}
+        value={personalInfo.lastName}
       />
 
       <TextInput
         autoCapitalize='none'
-        onChangeText={text => updateState(text, 'email')}
+        onChangeText={text => updatePersonalInfo(text, 'email')}
         placeholder='Email'
         style={styles.input}
         textContentType='emailAddress'
-        value={state.email}
+        value={personalInfo.email}
       />
 
       <TextInput
         autoCapitalize='none'
-        onChangeText={text => updateState(text, 'password')}
+        onChangeText={text => updatePersonalInfo(text, 'password')}
         placeholder='Password'
         secureTextEntry={true}
         style={styles.input}
         textContentType='password'
-        value={state.password}
+        value={personalInfo.password}
       />
 
     </View>

@@ -19,7 +19,7 @@ export default buildStyleSheet = () => {
     $height: height,
     $width: width,
 
-    $pagePadding: '50rem',
+    $pagePadding: '40rem',
     $tabHeight: tabHeight,
 
     $black: black,

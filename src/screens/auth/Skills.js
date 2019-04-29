@@ -8,6 +8,7 @@ const PersonalInfo = props => {
   const { pagingHeight } = props;
   return (
     <View style={[ styles.page, { height: pagingHeight } ]}>
+    {/* <View style={styles.page}> */}
 
       <Text>Skill 1</Text>
       <Text>Skill 2</Text>

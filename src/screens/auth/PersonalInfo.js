@@ -7,7 +7,8 @@ import Touchable from '../../components/Touchable'
 const PersonalInfo = props => {
   const { pagingHeight, state, updateState } = props;
   return (
-    <View style={[ styles.page, { height: pagingHeight } ]}>
+    // <View style={[ styles.page, { height: pagingHeight } ]}>
+    <View style={styles.page}>
 
       <Touchable iosType='opacity' onPress={props.backToLogin} style={styles.foo}>
         <Text>Back to Log In</Text>

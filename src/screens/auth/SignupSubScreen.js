@@ -75,7 +75,7 @@ class SignupScreen extends React.Component {
     return (
       <View style={styles.page}>
 
-        <ScrollView pagingEnabled scrollEnabled={true} style={styles.scroll}>
+        <ScrollView pagingEnabled scrollEnabled={true} style={[ styles.scroll, { height: pagingHeight } ]}>
           <PersonalInfo backToLogin={this.backToLogin} pagingHeight={pagingHeight} state={this.state} updateState={this.updateState} />
           <Skills pagingHeight={pagingHeight} />
         </ScrollView>

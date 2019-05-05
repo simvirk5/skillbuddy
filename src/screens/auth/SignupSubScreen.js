@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Icon from '../../components/Icon'
 import PersonalInfo from './PersonalInfo'
 import Skills from './Skills'
-import Touchable from '../../components/Touchable'
+import CircleButton from '../../components/CircleButton'
 import UserDesc from './UserDesc'
 
 import { height, width } from '../../../variables/style-sheet'
@@ -90,12 +90,6 @@ class SignupScreen extends React.Component {
     return (
       <View style={styles.page}>
 
-        <Touchable iosType='opacity' onPress={() => this.changePage('prev')}>
-          <View style={styles.circle}>
-            <Icon color='white' library='Entypo' name='chevron-up' size={50} />
-          </View>
-        </Touchable>
-
         <ScrollView
           pagingEnabled
           onLayout={e => this.setState({ scrollViewHeight: e.nativeEvent.layout.height })}
@@ -111,11 +105,26 @@ class SignupScreen extends React.Component {
           <UserDesc handleSubmit={this.handleSubmit} pagingHeight={scrollViewHeight} />
         </ScrollView>
 
-        <Touchable iosType='opacity' onPress={() => this.changePage('next')}>
-          <View style={styles.circle}>
-            <Icon color='white' library='Entypo' name='chevron-down' size={50} />
-          </View>
-        </Touchable>
+        <View style={styles.circleButtonWrapper}>
+          <CircleButton
+            chevronColor='white'
+            chevronDirection='up'
+            chevronSize={50}
+            circleColor='blue'
+            circleSize={60}
+            handlePress={() => this.changePage('prev')}
+          />
+
+          <CircleButton
+            chevronColor='white'
+            chevronDirection='down'
+            chevronSize={50}
+            circleColor='blue'
+            circleSize={60}
+            handlePress={() => this.changePage('next')}
+          />
+        </View>
+
       </View>
     );
   }
@@ -134,17 +143,13 @@ const styles = EStyleSheet.create({
     marginTop: '$pagePadding',
     backgroundColor: 'green',
   },
-  circle: {
-    height: 60,
-    width: 60,
-    marginTop: '$pagePadding',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: '$purple',
-    borderRadius: 30,
-  },
   text: {
     // fontSize: '22rem'
+  },
+  circleButtonWrapper: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
 

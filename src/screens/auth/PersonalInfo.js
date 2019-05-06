@@ -61,7 +61,7 @@ const styles = EStyleSheet.create({
 
   page: {
     // height: '100%',
-    backgroundColor: 'blue',
+    backgroundColor: 'aquamarine',
   },
   foo: {
     backgroundColor: 'grey',

@@ -133,7 +133,7 @@ class SignupScreen extends React.Component {
             skillsSections={categoriesToLearn}
           />
           <SkillsCategory
-            bgColor='aqua'
+            bgColor='blueviolet'
             headingText='Tell us what you would like to teach. Select up to 3 skills:'
             pagingHeight={scrollViewHeight}
             skillsSections={categoriesToTeach}

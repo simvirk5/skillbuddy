@@ -24,7 +24,7 @@ export default function CircleButton(props) {
         <Icon color={chevronColor || 'white'} library='Entypo' name={direction[chevronDirection]} size={chevronSize || 50} />
       </View>
     </Touchable>
-  )
+  );
 }
 
 const styles = EStyleSheet.create({

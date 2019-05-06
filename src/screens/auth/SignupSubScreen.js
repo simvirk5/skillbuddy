@@ -5,8 +5,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from '../../components/Icon'
 import PersonalInfo from './PersonalInfo'
-import Skills from './Skills'
+import SkillsCategory from './SkillsCategory'
 import CircleButton from '../../components/CircleButton'
+import Touchable from '../../components/Touchable'
 import UserDesc from './UserDesc'
 
 import { height, width } from '../../../variables/style-sheet'
@@ -25,6 +26,7 @@ class SignupScreen extends React.Component {
   constructor(props) {
     super(props)
     // this.scrollView = React.createRef();
+    this.scrollChildren = 4;
     this.state = {
       personalInfo: {
         firstName: '',
@@ -39,30 +41,8 @@ class SignupScreen extends React.Component {
 
   backToLogin = () => this.props.navigation.navigate('Login')
 
-  handleErr = errMsg => {
-    console.log('signup failed with err: ', errMsg);
-  }
-
-  handleSubmit = () => {
-    const { personalInfo } = this.state;
-    const { firstName, lastName, email, password } = personalInfo;
-    postWithAxios({ firstName, lastName, email, password }).then(result => {
-      console.log('handleSub cb')
-      result.data.user
-        ? this.handleSuccess({ user: result.data.user, token: result.data.token })
-        : this.handleErr(result.data._message);
-    }).catch(err => console.log('err: ', err));
-  }
-
-  handleSuccess = async ({ user, token }) => {
-    await this.setToken(token);
-    this.props.liftUser({ user, token });
-    this.props.navigation.navigate('Main');
-  }
-
   changePage = direction => {
-    const scrollChildren = 3;
-    const scrollDown = this.state.scrollViewContentOffsetY < this.state.scrollViewHeight * (scrollChildren -1)
+    const scrollDown = this.state.scrollViewContentOffsetY < this.state.scrollViewHeight * (this.scrollChildren -1)
                       ? this.state.scrollViewHeight
                       : 0;
     const scrollUp = this.state.scrollViewContentOffsetY > 0
@@ -74,6 +54,28 @@ class SignupScreen extends React.Component {
     }
     this.scrollView.scrollTo({ y: directions[direction] })
   };
+
+  handleErr = errMsg => {
+    console.log('signup failed with err: ', errMsg);
+  }
+
+  handleSubmit = () => {
+    // const { personalInfo } = this.state;
+    // const { firstName, lastName, email, password } = personalInfo;
+    // postWithAxios({ firstName, lastName, email, password }).then(result => {
+    //   console.log('handleSub cb')
+    //   result.data.user
+    //     ? this.handleSuccess({ user: result.data.user, token: result.data.token })
+    //     : this.handleErr(result.data._message);
+    // }).catch(err => console.log('err: ', err));
+    this.props.navigation.navigate('Congrats')
+  }
+
+  handleSuccess = async ({ user, token }) => {
+    await this.setToken(token);
+    this.props.liftUser({ user, token });
+    this.props.navigation.navigate('Main');
+  }
 
   setToken = async token => {
     try {
@@ -87,6 +89,30 @@ class SignupScreen extends React.Component {
 
   render() {
     const { personalInfo, scrollViewHeight } = this.state;
+    const categoriesToLearn = [
+      { bgColor: 'lightblue', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Art' },
+      { bgColor: 'lightgreen', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Cooking' },
+      { bgColor: 'lightblue', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Outdoors' },
+      { bgColor: 'lightgreen', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Tech' },
+    ];
+    const categoriesToTeach = [
+      { bgColor: 'lightblue', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Art' },
+      { bgColor: 'lightgreen', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Cooking' },
+      { bgColor: 'lightblue', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Outdoors' },
+      { bgColor: 'lightgreen', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Tech' },
+    ];
+    const nextOrSubmitButton = this.state.scrollViewContentOffsetY < scrollViewHeight * (this.scrollChildren -1)
+              ? <CircleButton
+                  chevronColor='white'
+                  chevronDirection='down'
+                  chevronSize={50}
+                  circleColor='blue'
+                  circleSize={60}
+                  handlePress={() => this.changePage('next')}
+                />
+              : <Touchable iosType='opacity' onPress={this.handleSubmit} viewStyle={styles.submitButton}>
+                  <Text style={styles.submitButtonText}>Submit</Text>
+                </Touchable>;
     return (
       <View style={styles.page}>
 
@@ -96,13 +122,21 @@ class SignupScreen extends React.Component {
           onScroll={e => this.setState({ scrollViewContentOffsetY: e.nativeEvent.contentOffset.y })}
           ref={ref => this.scrollView = ref}
           scrollEnabled={true}
+          showsVerticalScrollIndicator={false}
           style={[ styles.scroll ]}
         >
           <PersonalInfo backToLogin={this.backToLogin} pagingHeight={scrollViewHeight} personalInfo={personalInfo} updateState={this.updateState} />
-          <Skills pagingHeight={scrollViewHeight} />
-
-          {/* TEMP PASSING SUBMIT FUNC */}
-          <UserDesc handleSubmit={this.handleSubmit} pagingHeight={scrollViewHeight} />
+          <SkillsCategory
+            headingText='Tell us what you would like to learn. Select from the popular skills offered in your location:'
+            pagingHeight={scrollViewHeight}
+            skillsSections={categoriesToLearn}
+          />
+          <SkillsCategory
+            headingText='Tell us what you would like to teach. Select up to 3 skills:'
+            pagingHeight={scrollViewHeight}
+            skillsSections={categoriesToTeach}
+          />
+          <UserDesc pagingHeight={scrollViewHeight} />
         </ScrollView>
 
         <View style={styles.circleButtonWrapper}>
@@ -115,14 +149,7 @@ class SignupScreen extends React.Component {
             handlePress={() => this.changePage('prev')}
           />
 
-          <CircleButton
-            chevronColor='white'
-            chevronDirection='down'
-            chevronSize={50}
-            circleColor='blue'
-            circleSize={60}
-            handlePress={() => this.changePage('next')}
-          />
+          {nextOrSubmitButton}
         </View>
 
       </View>
@@ -141,7 +168,6 @@ const styles = EStyleSheet.create({
   scroll: {
     width: '100%',
     marginTop: '$pagePadding',
-    backgroundColor: 'green',
   },
   text: {
     // fontSize: '22rem'
@@ -150,6 +176,18 @@ const styles = EStyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  submitButton: {
+    padding: '10rem',
+    marginTop: '$pagePadding',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: '$purple',
+    borderRadius: '20rem',
+  },
+  submitButtonText: {
+    color: '$white',
+    fontSize: '20rem',
   },
 });
 

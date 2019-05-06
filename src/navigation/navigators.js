@@ -10,6 +10,7 @@ import ExploreSubScreen from '../screens/explore/ExploreSubScreen';
 import MessagesSubScreen from '../screens/messages/MessagesSubScreen';
 import ProfileSubScreen from '../screens/profile/ProfileSubScreen';
 
+import CongratsSubScreen from '../screens/auth/CongratsSubScreen';
 import LoadingScreen from '../screens/auth/LoadingScreen';
 import LoginSubScreen from '../screens/auth/LoginSubScreen';
 import SignupSubScreen from '../screens/auth/SignupSubScreen';
@@ -57,6 +58,7 @@ const AuthStack = createStackNavigator(
   {
     Login: LoginSubScreen,
     Signup: SignupSubScreen,
+    Congrats: CongratsSubScreen,
   },
   {
     initialRouteName: 'Login',

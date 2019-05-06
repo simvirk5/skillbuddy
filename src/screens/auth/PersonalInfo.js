@@ -11,7 +11,7 @@ const PersonalInfo = props => {
     <View style={[ styles.page, { height: pagingHeight } ]}>
 
       <Touchable iosType='opacity' onPress={props.backToLogin} style={styles.foo}>
-        <Text>Back to Log In</Text>
+        <Text style={{ color: 'yellow' }}>Back to Log In</Text>
       </Touchable>
 
       <Text style={styles.title}>Sign Up</Text>

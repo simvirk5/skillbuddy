@@ -27,5 +27,10 @@ export default buildStyleSheet = () => {
     $orange: orange,
     $purple: purple,
     $white: white,
+
+    // Skill Box
+    $skillBoxWidth: width / 4,
+    $skillBoxMarginLR: '$skillBoxWidth / 6',
+    $skillBoxMarginTB: '$skillBoxMarginLR / 2',
   });
 };

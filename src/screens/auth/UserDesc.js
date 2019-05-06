@@ -5,15 +5,12 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Touchable from '../../components/Touchable'
 
 const UserDesc = props => {
-  const { handleSubmit, pagingHeight } = props;
+  const { pagingHeight } = props;
   return (
     <View style={[ styles.page, { height: pagingHeight } ]}>
 
       <Text>User desc</Text>
       <Text>pic here</Text>
-
-      {/* TEMP BUTTON */}
-      <Button onPress={handleSubmit} title='submit' />
 
     </View>
   );

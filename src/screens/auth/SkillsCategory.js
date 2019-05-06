@@ -6,7 +6,7 @@ import SkillsCategorySection from './SkillsCategorySection'
 import Touchable from '../../components/Touchable'
 
 export default function SkillsCategory(props) {
-  const { headingText, pagingHeight, skillsSections } = props;
+  const { bgColor, headingText, pagingHeight, skillsSections } = props;
   const sections = skillsSections.map((section, i) => {
     return <SkillsCategorySection
       key={i + section.title}
@@ -16,7 +16,7 @@ export default function SkillsCategory(props) {
     />
   });
   return (
-    <View style={[ styles.page, { height: pagingHeight } ]}>
+    <View style={[ styles.page, { height: pagingHeight, backgroundColor: bgColor } ]}>
 
       <View style={styles.headingWrapper}>
         <Text style={styles.text}>{headingText}</Text>
@@ -35,7 +35,9 @@ const styles = EStyleSheet.create({
     paddingTop: '$pagePadding',
   },
   headingWrapper: {
-    width: '80%',
+    width: '100%',
+    paddingLeft: '10%',
+    paddingRight: '10%',
     marginBottom: '15rem',
     alignSelf: 'center',
   },

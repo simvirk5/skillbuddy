@@ -96,10 +96,10 @@ class SignupScreen extends React.Component {
       { bgColor: 'lightgreen', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Tech' },
     ];
     const categoriesToTeach = [
-      { bgColor: 'lightblue', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Art' },
-      { bgColor: 'lightgreen', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Cooking' },
-      { bgColor: 'lightblue', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Outdoors' },
-      { bgColor: 'lightgreen', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Tech' },
+      { bgColor: 'lightgrey', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Art' },
+      { bgColor: 'pink', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Cooking' },
+      { bgColor: 'lightgrey', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Outdoors' },
+      { bgColor: 'pink', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Tech' },
     ];
     const nextOrSubmitButton = this.state.scrollViewContentOffsetY < scrollViewHeight * (this.scrollChildren -1)
               ? <CircleButton
@@ -121,17 +121,19 @@ class SignupScreen extends React.Component {
           onLayout={e => this.setState({ scrollViewHeight: e.nativeEvent.layout.height })}
           onScroll={e => this.setState({ scrollViewContentOffsetY: e.nativeEvent.contentOffset.y })}
           ref={ref => this.scrollView = ref}
-          scrollEnabled={true}
+          scrollEnabled={false}
           showsVerticalScrollIndicator={false}
           style={[ styles.scroll ]}
         >
           <PersonalInfo backToLogin={this.backToLogin} pagingHeight={scrollViewHeight} personalInfo={personalInfo} updateState={this.updateState} />
           <SkillsCategory
+            bgColor='teal'
             headingText='Tell us what you would like to learn. Select from the popular skills offered in your location:'
             pagingHeight={scrollViewHeight}
             skillsSections={categoriesToLearn}
           />
           <SkillsCategory
+            bgColor='aqua'
             headingText='Tell us what you would like to teach. Select up to 3 skills:'
             pagingHeight={scrollViewHeight}
             skillsSections={categoriesToTeach}

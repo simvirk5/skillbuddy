@@ -3,12 +3,13 @@ import { AsyncStorage, Button, ScrollView, Text, TextInput, View } from 'react-n
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import CircleButton from '../../components/CircleButton'
 import Icon from '../../components/Icon'
 import PersonalInfo from './PersonalInfo'
 import SkillsCategory from './SkillsCategory'
-import CircleButton from '../../components/CircleButton'
 import Touchable from '../../components/Touchable'
 import UserDesc from './UserDesc'
+import ZipCode from './ZipCode'
 
 import { height, width } from '../../../variables/style-sheet'
 import { liftUser } from '../../redux/modules/user';
@@ -26,14 +27,17 @@ class SignupScreen extends React.Component {
   constructor(props) {
     super(props)
     // this.scrollView = React.createRef();
-    this.scrollChildren = 4;
+    this.scrollChildren = ['personalInfo', 'learnSkills', 'teachSkills', 'userDesc', 'zipCode'];
     this.state = {
+      pageNum: 0,
       personalInfo: {
         firstName: '',
         lastName: '',
         email: '',
         password: '',
+        description: '',
       },
+      postalCode: null,
       scrollViewContentOffsetY: 0,
       scrollViewHeight: 0,
     }
@@ -42,18 +46,17 @@ class SignupScreen extends React.Component {
   backToLogin = () => this.props.navigation.navigate('Login')
 
   changePage = direction => {
-    const scrollDown = this.state.scrollViewContentOffsetY < this.state.scrollViewHeight * (this.scrollChildren -1)
-                      ? this.state.scrollViewHeight
-                      : 0;
-    const scrollUp = this.state.scrollViewContentOffsetY > 0
-                    ? this.state.scrollViewHeight
-                    : 0;
-    const directions = {
-      prev: this.state.scrollViewContentOffsetY - scrollUp,
-      next: this.state.scrollViewContentOffsetY + scrollDown
-    }
-    this.scrollView.scrollTo({ y: directions[direction] })
-  };
+    this.setState(prevState => {
+      const { pageNum, scrollViewHeight } = prevState;
+      const directions = {
+        prev: pageNum > 0 ? pageNum - 1 : pageNum,
+        next: pageNum < this.scrollChildren.length - 1 ? pageNum + 1 : pageNum,
+      }
+      const newPageNum = directions[direction];
+      this.scrollView.scrollTo({ y: scrollViewHeight * newPageNum });
+      return { pageNum: newPageNum }
+    });
+  }
 
   handleErr = errMsg => {
     console.log('signup failed with err: ', errMsg);
@@ -85,7 +88,8 @@ class SignupScreen extends React.Component {
     }
   }
 
-  updateState = (data, key) => this.setState({ [key]: data });
+  updatePersonalInfo = data => this.updateState('personalInfo', data);
+  updateState = (key, data) => this.setState({ [key]: data });
 
   render() {
     const { personalInfo, scrollViewHeight } = this.state;
@@ -101,31 +105,38 @@ class SignupScreen extends React.Component {
       { bgColor: 'lightgrey', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Outdoors' },
       { bgColor: 'pink', subCategories: ['Photography', 'Painting', 'Sculpting', 'Drama', 'Makeup', 'Dance'], title: 'Tech' },
     ];
-    const nextOrSubmitButton = this.state.scrollViewContentOffsetY < scrollViewHeight * (this.scrollChildren -1)
-              ? <CircleButton
-                  chevronColor='white'
-                  chevronDirection='down'
-                  chevronSize={50}
-                  circleColor='blue'
-                  circleSize={60}
-                  handlePress={() => this.changePage('next')}
-                />
-              : <Touchable iosType='opacity' onPress={this.handleSubmit} viewStyle={styles.submitButton}>
-                  <Text style={styles.submitButtonText}>Submit</Text>
-                </Touchable>;
+    // const nextOrSubmitButton = this.state.scrollViewContentOffsetY < scrollViewHeight * (this.scrollChildren.length -1)
+    //           ? <CircleButton
+    //               chevronColor='white'
+    //               chevronDirection='down'
+    //               chevronSize={50}
+    //               circleColor='blue'
+    //               circleSize={60}
+    //               handlePress={() => this.changePage('next')}
+    //             />
+    //           : <Touchable iosType='opacity' onPress={this.handleSubmit} viewStyle={styles.navButtons}>
+    //               <Text style={styles.buttonText}>Submit</Text>
+    //             </Touchable>;
+    const nextButtonText = this.state.scrollViewContentOffsetY < scrollViewHeight * (this.scrollChildren.length -1)
+                          ? 'Next'
+                          : 'Submit';
+    const nextButtonOnPress = this.state.scrollViewContentOffsetY < scrollViewHeight * (this.scrollChildren.length -1)
+                            ? () => this.changePage('next')
+                            : this.handleSubmit;
     return (
       <View style={styles.page}>
 
         <ScrollView
           pagingEnabled
           onLayout={e => this.setState({ scrollViewHeight: e.nativeEvent.layout.height })}
+          onMomentumScrollEnd={() => console.log('scroll end')}
           onScroll={e => this.setState({ scrollViewContentOffsetY: e.nativeEvent.contentOffset.y })}
           ref={ref => this.scrollView = ref}
           scrollEnabled={false}
           showsVerticalScrollIndicator={false}
           style={[ styles.scroll ]}
         >
-          <PersonalInfo backToLogin={this.backToLogin} pagingHeight={scrollViewHeight} personalInfo={personalInfo} updateState={this.updateState} />
+          <PersonalInfo backToLogin={this.backToLogin} pagingHeight={scrollViewHeight} personalInfo={personalInfo} updatePersonalInfo={this.updatePersonalInfo} />
           <SkillsCategory
             bgColor='teal'
             headingText='Tell us what you would like to learn. Select from the popular skills offered in your location:'
@@ -138,20 +149,32 @@ class SignupScreen extends React.Component {
             pagingHeight={scrollViewHeight}
             skillsSections={categoriesToTeach}
           />
-          <UserDesc pagingHeight={scrollViewHeight} />
+          <UserDesc pagingHeight={scrollViewHeight} personalInfo={personalInfo} updatePersonalInfo={this.updatePersonalInfo} />
+          <ZipCode
+            pagingHeight={scrollViewHeight}
+            postalCode={this.state.postalCode}
+            updateZipCode={() => this.updateState('postalCode')}
+          />
         </ScrollView>
 
         <View style={styles.circleButtonWrapper}>
-          <CircleButton
+          {/* <CircleButton
             chevronColor='white'
             chevronDirection='up'
             chevronSize={50}
             circleColor='blue'
             circleSize={60}
             handlePress={() => this.changePage('prev')}
-          />
+          /> */}
+          <Touchable iosType='opacity' onPress={() => this.changePage('prev')} style={styles.navButtons} >
+            <Text style={styles.buttonText}>Back</Text>
+          </Touchable>
 
-          {nextOrSubmitButton}
+          <Touchable iosType='opacity' onPress={nextButtonOnPress} style={styles.navButtons} >
+            <Text style={styles.buttonText}>{nextButtonText}</Text>
+          </Touchable>
+
+          {/* {nextOrSubmitButton} */}
         </View>
 
       </View>
@@ -179,7 +202,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  submitButton: {
+  navButtons: {
     padding: '10rem',
     marginTop: '$pagePadding',
     justifyContent: 'flex-end',
@@ -187,10 +210,11 @@ const styles = EStyleSheet.create({
     backgroundColor: '$purple',
     borderRadius: '20rem',
   },
-  submitButtonText: {
+  buttonText: {
     color: '$white',
     fontSize: '20rem',
   },
+
 });
 
 const mapStateToProps = state => {

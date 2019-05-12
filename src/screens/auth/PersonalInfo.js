@@ -5,8 +5,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Touchable from '../../components/Touchable'
 
 const PersonalInfo = props => {
-  const { pagingHeight, personalInfo, updateState } = props;
-  const updatePersonalInfo = (text, key) => updateState({ ...personalInfo, [key]: text }, 'personalInfo');
+  const { pagingHeight, personalInfo, updatePersonalInfo } = props;
+  const handleUpdate = (key, text) => updatePersonalInfo({ ...personalInfo, [key]: text });
   return (
     <View style={[ styles.page, { height: pagingHeight } ]}>
 
@@ -17,7 +17,7 @@ const PersonalInfo = props => {
       <Text style={styles.title}>Sign Up</Text>
 
       <TextInput
-        onChangeText={text => updatePersonalInfo(text, 'firstName')}
+        onChangeText={text => handleUpdate('firstName', text)}
         placeholder='First Name'
         style={styles.input}
         textContentType='givenName'
@@ -25,7 +25,7 @@ const PersonalInfo = props => {
       />
 
       <TextInput
-        onChangeText={text => updatePersonalInfo(text, 'lastName')}
+        onChangeText={text => handleUpdate('lastName', text)}
         placeholder='Last Name'
         style={styles.input}
         textContentType='familyName'
@@ -34,7 +34,7 @@ const PersonalInfo = props => {
 
       <TextInput
         autoCapitalize='none'
-        onChangeText={text => updatePersonalInfo(text, 'email')}
+        onChangeText={text => handleUpdate('email', text)}
         placeholder='Email'
         style={styles.input}
         textContentType='emailAddress'
@@ -43,7 +43,7 @@ const PersonalInfo = props => {
 
       <TextInput
         autoCapitalize='none'
-        onChangeText={text => updatePersonalInfo(text, 'password')}
+        onChangeText={text => handleUpdate('password', text)}
         placeholder='Password'
         secureTextEntry={true}
         style={styles.input}

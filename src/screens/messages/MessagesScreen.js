@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default props => {
   return (
     <View style={styles.view}>
-      <Text>I'm Connections Sub Screen</Text>
+      <Text>I'm Messages Screen</Text>
     </View>
   );
 }

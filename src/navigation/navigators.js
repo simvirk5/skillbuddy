@@ -5,11 +5,13 @@ import {
   createSwitchNavigator,
 } from 'react-navigation';
 
-import ConnectionsSubScreen from '../screens/connections/ConnectionsSubScreen';
-import ExploreSubScreen from '../screens/explore/ExploreSubScreen';
-import MessagesSubScreen from '../screens/messages/MessagesSubScreen';
-import ProfileSubScreen from '../screens/profile/ProfileSubScreen';
-
+import BuddiesScreen from '../screens/buddies/BuddiesScreen';
+import CategoryScreen from '../screens/explore/CategoryScreen';
+import ExploreScreen from '../screens/explore/ExploreScreen';
+import HomeScreen from '../screens/home/HomeScreen';
+import MessagesScreen from '../screens/messages/MessagesScreen';
+import ProfileScreen from '../screens/profile/ProfileScreen';
+// Login and Signup
 import CongratsSubScreen from '../screens/auth/CongratsSubScreen';
 import LoadingScreen from '../screens/auth/LoadingScreen';
 import LoginSubScreen from '../screens/auth/LoginSubScreen';
@@ -19,24 +21,37 @@ import {
   tabHeight,
 } from '../../variables/style-sheet';
 
+const ExploreStack = createStackNavigator(
+  {
+    Explore: ExploreScreen,
+    Category: CategoryScreen,
+  },
+  {
+    initialRouteName: 'Explore',
+    defaultNavigationOptions: {
+      header: null,
+    }
+  }
+);
+
 const TabNav = createBottomTabNavigator(
   {
-    Explore: { screen: ExploreSubScreen },
-    Connections: { screen: ConnectionsSubScreen },
-    Messages: { screen: MessagesSubScreen },
-    Profile: { screen: ProfileSubScreen },
+    Home: { screen: HomeScreen },
+    Explore: ExploreStack,
+    Buddies: { screen: BuddiesScreen },
+    Messages: { screen: MessagesScreen },
+    Profile: { screen: ProfileScreen },
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
       // stuff here
     }),
-    initialRouteName: 'Explore',
+    initialRouteName: 'Home',
     tabBarOptions: {
-      // activeTintColor: white,
-      // inactiveTintColor: greyMedium,
-      // activeBackgroundColor: greyMediumDark,
-      // activeBackgroundColor: blackBG,
-      // inactiveBackgroundColor: blackBG,
+      activeTintColor: 'white',
+      inactiveTintColor: 'grey',
+      activeBackgroundColor: 'purple',
+      inactiveBackgroundColor: 'indigo',
       style: {
         height: tabHeight,
       },

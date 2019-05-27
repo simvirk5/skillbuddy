@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default props => {
   return (
     <View style={styles.view}>
-      <Text>I'm Explore Sub Screen</Text>
+      <Text>I'm Home Screen</Text>
     </View>
   );
 }

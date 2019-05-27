@@ -24,7 +24,7 @@ const ProfileSubScreen = props => {
 
   return (
     <View style={styles.view}>
-      <Text>I'm Profile Sub Screen</Text>
+      <Text>I'm Profile Screen</Text>
       <Button onPress={handleLogout} title='Logout for now...' />
     </View>
   );

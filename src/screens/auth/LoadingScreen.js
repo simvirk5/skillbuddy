@@ -75,12 +75,29 @@ class LoadingScreen extends React.Component {
     }
   }
 
+  fakeLogin = () => {
+    const path = `${apiUrl}/user/login`;
+    const { postWithAxios } = useAxios(path);
+    const email = 'q@q.com';
+    const password = 'password';
+    postWithAxios({ email, password }).then(result => {
+      result.data.user
+        ? this.handleSuccess({ user: result.data.user, token: result.data.token })
+        : this.handleErr(result.data._message);
+      this.props.navigation.navigate('Explore')
+    });
+  }
+
   componentDidMount = async () => {
+    // FAKE - REMOVE
+    this.fakeLogin()
+
+
     // () => this.props.navigation.navigate('Auth')
-    const token = await this.getToken();
-    typeof token !== 'string' || token === 'none' || token === ''
-      ? this.tokenFail()
-      : this.tokenSuccess(token);
+    // const token = await this.getToken();
+    // typeof token !== 'string' || token === 'none' || token === ''
+    //   ? this.tokenFail()
+    //   : this.tokenSuccess(token);
   }
 
   render() {

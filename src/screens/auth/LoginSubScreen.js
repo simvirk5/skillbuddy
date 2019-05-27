@@ -3,6 +3,7 @@ import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import DismissKeyboardView from '../../components/DismissKeyboardView';
 import Touchable from '../../components/Touchable';
 
 import { liftUser } from '../../redux/modules/user';
@@ -57,38 +58,41 @@ class LoginScreen extends React.Component {
     return (
       <View style={styles.page}>
 
-        <View style={styles.circle}></View>
+        <DismissKeyboardView behavior='position' contentContainerStyle={styles.keyboardAvoidingView}>
+          <View style={styles.circle}></View>
 
-        <Text style={styles.title}>SKILLBUDDY</Text>
+          <Text style={styles.title}>SKILLBUDDY</Text>
 
-        <TextInput
-          autoCapitalize='none'
-          onChangeText={text => this.setState({ email: text })}
-          placeholder='Email'
-          style={styles.input}
-          textContentType='emailAddress'
-          value={email}
-        />
+          <TextInput
+            autoCapitalize='none'
+            onChangeText={text => this.setState({ email: text })}
+            placeholder='Email'
+            style={styles.input}
+            textContentType='emailAddress'
+            value={email}
+          />
 
-        <TextInput
-          autoCapitalize='none'
-          onChangeText={text => this.setState({ password: text })}
-          placeholder='Password'
-          secureTextEntry={true}
-          style={styles.input}
-          textContentType='password'
-          value={password}
-        />
+          <TextInput
+            autoCapitalize='none'
+            onChangeText={text => this.setState({ password: text })}
+            placeholder='Password'
+            secureTextEntry={true}
+            style={styles.input}
+            textContentType='password'
+            value={password}
+          />
 
-        <Touchable iosType='opacity' onPress={this.handleSubmit} style={styles.button}>
-          <Text style={styles.text}>Log In</Text>
-        </Touchable>
+          <Touchable iosType='opacity' onPress={this.handleSubmit} style={styles.button}>
+            <Text style={styles.text}>Log In</Text>
+          </Touchable>
 
-        <Touchable iosType='opacity' onPress={() => this.props.navigation.navigate('Signup')}>
-          <Text style={styles.smallText}>Sign Up</Text>
-        </Touchable>
+          <Touchable iosType='opacity' onPress={() => this.props.navigation.navigate('Signup')}>
+            <Text style={styles.smallText}>Sign Up</Text>
+          </Touchable>
 
-        {/* <Button onPress={() => console.log('user: ', this.props.user)} title='props user' /> */}
+          {/* <Button onPress={() => console.log('user: ', this.props.user)} title='props user' /> */}
+
+        </DismissKeyboardView>
 
       </View>
     );
@@ -104,6 +108,10 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '$orange',
+  },
+  keyboardAvoidingView: {
+    width: '$width',
+    alignItems: 'center',
   },
   circle: {
     height: '150rem',

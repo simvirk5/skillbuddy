@@ -29,7 +29,7 @@ export default class ExploreScreen extends React.Component {
     const tiles = categories.map((category, i) => (
       <CategoryTile
         backgroundColor={category.backgroundColor}
-        handlePress={() => this.props.navigation.navigate('Category')}
+        handlePress={() => this.props.navigation.navigate('Category', { category })}
         key={i + category.category}
         title={category.category}
       />

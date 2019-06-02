@@ -13,11 +13,12 @@ export default class CategoryScreen extends React.Component {
   }
 
   render() {
+    const category = this.props.navigation.getParam('category', 'Getting category...');
     return (
       <View style={styles.page}>
 
-        <View style={styles.header}>
-          <Text style={[ styles.text, styles.headerText ]}>Header...TECH</Text>
+        <View style={[ styles.header, { backgroundColor: category.backgroundColor } ]}>
+          <Text style={[ styles.text, styles.headerText ]}>{category.category.toUpperCase()}</Text>
         </View>
 
         <Text>Search bar here</Text>

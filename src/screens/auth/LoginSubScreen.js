@@ -7,7 +7,7 @@ import DismissKeyboardView from '../../components/DismissKeyboardView';
 import Touchable from '../../components/Touchable';
 
 import { liftUser } from '../../redux/modules/user';
-import { apiUrl, tokenName } from '../../../utils/global-variables';
+import { apiUrl, tokenName } from '../../../variables/global-variables';
 import useAxios from '../../../utils/axios-helpers';
 
 const path = `${apiUrl}/user/login`;

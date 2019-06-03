@@ -13,7 +13,7 @@ import ZipCode from './ZipCode'
 
 import { height, width } from '../../../variables/style-sheet'
 import { liftUser } from '../../redux/modules/user';
-import { apiUrl, tokenName } from '../../../utils/global-variables';
+import { apiUrl, tokenName } from '../../../variables/global-variables';
 import useAxios from '../../../utils/axios-helpers';
 
 const path = `${apiUrl}/user/create`;

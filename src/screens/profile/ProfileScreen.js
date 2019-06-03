@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 
 import { logout } from '../../redux/modules/user';
-import { tokenName } from '../../../utils/global-variables';
+import { tokenName } from '../../../variables/global-variables';
 
 const ProfileSubScreen = props => {
   const deleteToken = async () => {

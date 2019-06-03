@@ -1,9 +1,13 @@
+import React from 'react'
+
 import {
   createAppContainer,
   createBottomTabNavigator,
   createStackNavigator,
   createSwitchNavigator,
 } from 'react-navigation';
+
+import Icon from '../components/Icon'
 
 import BuddiesScreen from '../screens/buddies/BuddiesScreen';
 import CategoryScreen from '../screens/explore/CategoryScreen';
@@ -36,15 +40,25 @@ const ExploreStack = createStackNavigator(
 
 const TabNav = createBottomTabNavigator(
   {
-    Home: { screen: HomeScreen },
+    Home: HomeScreen,
     Explore: ExploreStack,
-    Buddies: { screen: BuddiesScreen },
-    Messages: { screen: MessagesScreen },
-    Profile: { screen: ProfileScreen },
+    Buddies: BuddiesScreen,
+    Messages: MessagesScreen,
+    Profile: ProfileScreen,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      // stuff here
+      tabBarIcon: ({ tintColor }) => {
+        const { routeName } = navigation.state;
+        const icons = {
+          Home: <Icon color={tintColor} library='Feather' name='search' size={27} />,
+          Explore: <Icon color={tintColor} library='Feather' name='globe' size={27} />,
+          Buddies: <Icon color={tintColor} library='FontAwesome' name='handshake-o' size={27} />,
+          Messages: <Icon color={tintColor} library='MaterialCommunityIcons' name='message-text' size={27} />,
+          Profile: <Icon color={tintColor} library='FontAwesome' name='smile-o' size={27} />,
+        }
+        return icons[routeName]
+      }
     }),
     initialRouteName: 'Home',
     tabBarOptions: {
@@ -56,11 +70,12 @@ const TabNav = createBottomTabNavigator(
         height: tabHeight,
       },
       tabStyle: {
-        // paddingBottom: 35
+        paddingTop: 5,
+        justifyContent: 'space-between',
       },
       labelStyle: {
-        paddingBottom: 31,
-        fontSize: 15
+        marginBottom: 35,
+        fontSize: 11,
       },
       safeAreaInset: {
         bottom: 'never'

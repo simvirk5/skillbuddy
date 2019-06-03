@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import CategoryTile from '../../components/CategoryTile'
+import Touchable from '../../components/Touchable'
 
 // PLACEHOLDER CATEGORY NAMES
 const categories = [
@@ -26,10 +27,11 @@ export default class ExploreScreen extends React.Component {
 
   render() {
     const location = userLocation;
+
     const tiles = categories.map((category, i) => (
       <CategoryTile
         backgroundColor={category.backgroundColor}
-        handlePress={() => this.props.navigation.navigate('Category', { category })}
+        handlePress={() => this.props.navigation.navigate('Category', { category, categories })}
         key={i + category.category}
         title={category.category}
       />

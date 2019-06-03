@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 const { height, width } = Dimensions.get('window');
 const baseScreenWidth = 375; // from iPhoneX vertical
 
-export const tabHeight = 80;
+export const tabHeight = 84;
 
 export const black = '#000';
 export const blue = '#00F';

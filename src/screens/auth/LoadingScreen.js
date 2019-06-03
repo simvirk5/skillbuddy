@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { liftUser } from '../../redux/modules/user';
-import { apiUrl, tokenName } from '../../../utils/global-variables';
+import { apiUrl, tokenName } from '../../../variables/global-variables';
 import useAxios from '../../../utils/axios-helpers';
 
 import axios from 'axios';

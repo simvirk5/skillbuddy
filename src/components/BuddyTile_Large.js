@@ -15,7 +15,6 @@ const styles = EStyleSheet.create({
 
   wrapper: {
     height: '$size * 1.4',
-    // height: '$size',
     width: '$size',
     margin: '$size / 12',
     backgroundColor: 'lightgrey',

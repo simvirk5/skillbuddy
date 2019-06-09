@@ -9,19 +9,27 @@ export default class CategoryScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      category: '',
       showCategoryMenu: false,
     }
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.navigation.getParam('category') !== this.props.navigation.getParam('category')) {
-      this.setState({ showCategoryMenu: false })
-    }
+      const { category } = this.props.navigation.getParam('category')
+      this.setState({ category, showCategoryMenu: false })
+      this.mainScrollView.scrollTo({ y: 0, animated: false })
+      this.scrollView1.scrollTo({ x: 0, animated: false })
+      this.scrollView2.scrollTo({ x: 0, animated: false })
+      this.scrollView3.scrollTo({ x: 0, animated: false })
+      this.scrollView4.scrollTo({ x: 0, animated: false })
+}
   }
 
   render() {
     const { showCategoryMenu } = this.state;
     const category = this.props.navigation.getParam('category', 'Getting category...')
+    const categoryTitle = category.category
     const categories = this.props.navigation.getParam('categories')
     const categoryMenuItems = categories.filter(item => item.category !== category.category).map((category, i) => (
       <Touchable
@@ -52,34 +60,34 @@ export default class CategoryScreen extends React.Component {
 
         <Text>Search bar here</Text>
 
-        <ScrollView>
+        <ScrollView ref={scrollView => this.mainScrollView = scrollView}>
 
-          <Text>Category 1</Text>
-          <ScrollView horizontal>
+          <Text>{categoryTitle} Category 1</Text>
+          <ScrollView horizontal  ref={scrollView => this.scrollView1 = scrollView}>
             <BuddyTile_Large />
             <BuddyTile_Large />
             <BuddyTile_Large />
             <BuddyTile_Large />
           </ScrollView>
 
-          <Text>Category 2</Text>
-          <ScrollView horizontal>
+          <Text>{categoryTitle} Category 2</Text>
+          <ScrollView horizontal  ref={scrollView => this.scrollView2 = scrollView}>
             <BuddyTile_Large />
             <BuddyTile_Large />
             <BuddyTile_Large />
             <BuddyTile_Large />
           </ScrollView>
 
-          <Text>Category 3</Text>
-          <ScrollView horizontal>
+          <Text>{categoryTitle} Category 3</Text>
+          <ScrollView horizontal  ref={scrollView => this.scrollView3 = scrollView}>
             <BuddyTile_Large />
             <BuddyTile_Large />
             <BuddyTile_Large />
             <BuddyTile_Large />
           </ScrollView>
 
-          <Text>Category 4</Text>
-          <ScrollView horizontal>
+          <Text>{categoryTitle} Category 4</Text>
+          <ScrollView horizontal  ref={scrollView => this.scrollView4 = scrollView}>
             <BuddyTile_Large />
             <BuddyTile_Large />
             <BuddyTile_Large />

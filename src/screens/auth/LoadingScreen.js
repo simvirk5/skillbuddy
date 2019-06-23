@@ -84,7 +84,7 @@ class LoadingScreen extends React.Component {
       result.data.user
         ? this.handleSuccess({ user: result.data.user, token: result.data.token })
         : this.handleErr(result.data._message);
-      this.props.navigation.navigate('Explore')
+      this.props.navigation.navigate('Messages')
     });
   }
 

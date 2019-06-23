@@ -9,12 +9,12 @@ import {
 
 import Icon from '../components/Icon'
 
-import BuddiesScreen from '../screens/buddies/BuddiesScreen';
 import CategoryScreen from '../screens/explore/CategoryScreen';
 import ExploreScreen from '../screens/explore/ExploreScreen';
 import HomeScreen from '../screens/home/HomeScreen';
 import MessagesScreen from '../screens/messages/MessagesScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
+import ThreadScreen from '../screens/messages/ThreadScreen';
 // Login and Signup
 import CongratsSubScreen from '../screens/auth/CongratsSubScreen';
 import LoadingScreen from '../screens/auth/LoadingScreen';
@@ -38,12 +38,28 @@ const ExploreStack = createStackNavigator(
   }
 );
 
+const MessagesStack = createStackNavigator(
+  {
+    Messages: {
+      screen: MessagesScreen,
+      navigationOptions: {
+        header: null,
+        headerBackTitle: null,
+      },
+    },
+    Thread: ThreadScreen,
+  },
+  {
+    initialRouteName: 'Messages',
+  }
+);
+
+
 const TabNav = createBottomTabNavigator(
   {
     Home: HomeScreen,
     Explore: ExploreStack,
-    Buddies: BuddiesScreen,
-    Messages: MessagesScreen,
+    Messages: MessagesStack,
     Profile: ProfileScreen,
   },
   {
